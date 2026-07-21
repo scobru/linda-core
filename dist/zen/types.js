@@ -1,0 +1,4 @@
+/**
+ * Zen Type Definitions
+ */
+export {};

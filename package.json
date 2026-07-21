@@ -1,0 +1,20 @@
+{
+  "name": "linda-core",
+  "version": "1.0.0",
+  "description": "Core cryptography and messaging for Linda and Wormhole",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "type": "module",
+  "scripts": {
+    "build": "tsc"
+  },
+  "dependencies": {
+    "zen": "https://github.com/akaoio/zen",
+    "sodium-javascript": "^0.8.0",
+    "sodium-universal": "^5.0.1"
+  },
+  "devDependencies": {
+    "typescript": "~5.9.3",
+    "@types/node": "^24.13.3"
+  }
+}
