@@ -1,4 +1,13 @@
 import { type IZenPair } from './types.js';
+/**
+ * Non-breaking helper to initialize WebAssembly crypto acceleration (pen.wasm / crypto.wasm).
+ * If WASM is unavailable or fails, gracefully falls back to JS crypto without throwing.
+ */
+export declare function initWasmCrypto(wasmUrl?: string, zenInstance?: any): Promise<boolean>;
+/**
+ * Returns whether WASM crypto acceleration is currently active.
+ */
+export declare function isWasmCryptoAccelerated(zenInstance?: any): boolean;
 export declare function encrypt(data: any, key: string | IZenPair, zenInstance?: any): Promise<any>;
 export declare function decrypt(encryptedData: any, key: string | IZenPair, zenInstance?: any): Promise<any>;
 export declare function sign(data: any, pair: IZenPair, zenInstance?: any): Promise<any>;

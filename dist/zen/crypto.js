@@ -1,4 +1,41 @@
 import ZEN from 'zen';
+// WASM acceleration tracking
+let wasmAcceleratedState = false;
+/**
+ * Non-breaking helper to initialize WebAssembly crypto acceleration (pen.wasm / crypto.wasm).
+ * If WASM is unavailable or fails, gracefully falls back to JS crypto without throwing.
+ */
+export async function initWasmCrypto(wasmUrl, zenInstance) {
+    try {
+        const zen = getZenLibrary(zenInstance);
+        if (zen && zen.WASM && typeof zen.WASM.load === 'function') {
+            await zen.WASM.load(wasmUrl || 'pen.wasm');
+            wasmAcceleratedState = true;
+            return true;
+        }
+        if (typeof window !== 'undefined') {
+            const w = window;
+            if (w.Zen?.WASM?.load) {
+                await w.Zen.WASM.load(wasmUrl || 'pen.wasm');
+                wasmAcceleratedState = true;
+                return true;
+            }
+        }
+    }
+    catch (e) {
+        console.warn('[Crypto] WASM acceleration skipped, using standard JS crypto:', e?.message || e);
+    }
+    return false;
+}
+/**
+ * Returns whether WASM crypto acceleration is currently active.
+ */
+export function isWasmCryptoAccelerated(zenInstance) {
+    if (wasmAcceleratedState)
+        return true;
+    const zen = getZenLibrary(zenInstance);
+    return Boolean(zen && (zen.WASM?.loaded || zen.SEA?.WASM || zen.crypto?.WASM));
+}
 /**
  * Helper to get the best available Zen cryptographic methods.
  */
