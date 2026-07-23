@@ -9,7 +9,7 @@
     "build": "tsc"
   },
   "dependencies": {
-    "zen": "https://github.com/akaoio/zen",
+    "zen": "https://github.com/scobru/zen",
     "sodium-javascript": "^0.8.0",
     "sodium-universal": "^5.0.1"
   },
