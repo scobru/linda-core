@@ -57,6 +57,7 @@ export class CommunicationService {
 
     this.initPromise = (async () => {
       console.log("[CommunicationService] Initializing Zen session...");
+      console.log(`[CommunicationService] globalThis.Buffer is defined: ${typeof (globalThis as any).Buffer !== 'undefined'}`);
       const start = Date.now();
       try {
         // Wait for pair with 6s max timeout
@@ -801,6 +802,7 @@ export class CommunicationService {
       // no separate 'epub' like Gun SEA) — no discovery round-trip needed.
       let secret = this.secretCache.get(pubKey);
       if (!secret) {
+        console.log(`[CommunicationService] Deriving secret. pubKey: ${pubKey.slice(0, 10)}..., ourPub: ${myPair.pub.slice(0, 10)}...`);
         secret = await zenCrypto.secret(pubKey, myPair, this.db.zen);
         if (secret) this.secretCache.set(pubKey, secret);
       }
@@ -829,7 +831,7 @@ export class CommunicationService {
       } catch (decryptErr: any) {
         console.error(
           `[CommunicationService] Zen decrypt threw or timed out:`,
-          decryptErr.message,
+          decryptErr,
         );
         decrypted = undefined;
       }
